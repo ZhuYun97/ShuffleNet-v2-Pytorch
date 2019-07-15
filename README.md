@@ -6,14 +6,16 @@
 - Python 3.6
 - torch 1.1.0
 - torchvision 0.3.0
-## Purpose
+## To do
+- [x] Network structure
 - [x] Used for Classification
 - [ ] Used for Objection detection
 ## Usage
 ### For classification
-- If you want to test demo.
-1. At first, you should download the [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition).
-2. Then, put 
+- If you want to test classification demo.
+1. Download the project `https://github.com/ZhuYun97/shufflenetv2.git`
+2. You should download the [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition).
+3. Then, put the dataset into the corresponding location.
 ### For detection
 TBD
 ## Training own your dataset
@@ -39,6 +41,6 @@ Phase val loss: 0.34451772966384886, acc: 0.8441333333333333
 For **classification** dataset: I use a [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition) from kaggle which contains two classes(cats, dogs).
 For detection dataset: TBD
 ## reference material
-- For structure: (shufflenet-v2)[https://github.com/ericsun99/Shufflenet-v2-Pytorch]
-- For data processing: (process data)[https://zhuanlan.zhihu.com/p/29024978]
+- For structure: [shufflenet-v2](https://github.com/ericsun99/Shufflenet-v2-Pytorch)
+- For data processing: [process data](https://zhuanlan.zhihu.com/p/29024978)
 
