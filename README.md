@@ -16,6 +16,13 @@
 1. Download the project `https://github.com/ZhuYun97/shufflenetv2.git`
 2. You should download the [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition).
 3. Then, put the dataset into the corresponding location.
+#### Training
+- Training from a fresh start: run the command `python main.py`
+- Training from a trained model: `python main.py -t 1 -pre "/save/1563186508.pkl"`
+#### Testing
+- `python main.py -t 0 -pre "/save/1563186508.pkl"`
+#### Explanation for some obscure arguments
+- `t` means you decide to train(1) or test(0) the model. If you assign 0 to `t`, it's better to assign a trained model to `pre` 
 ### For detection
 TBD
 ## Training own your dataset
