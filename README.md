@@ -9,7 +9,7 @@
 ## To do
 - [x] Network structure
 - [x] Used for Classification
-- [ ] Used for Objection detection
+- [x] Used for (Objection detection)[https://github.com/ZhuYun97/ShufflNetv2-YOLOv3]
 ## Usage
 ### For classification
 - If you want to test classification demo.
@@ -24,12 +24,12 @@
 #### Explanation for some obscure arguments
 - `t` means you decide to train(1) or test(0) the model. If you assign 0 to `t`, it's better to assign a trained model to `pre` 
 ### For detection
-TBD
+In another (repo)[https://github.com/ZhuYun97/ShufflNetv2-YOLOv3]
 ## Training own your dataset
 ### For classification
 TBD
 ### For detection
-TBD
+In another (repo)[https://github.com/ZhuYun97/ShufflNetv2-YOLOv3]
 ## Experiments
 I train the model about 5 eopchs, and in each eopch, I test the performance of trained model.
 ```
@@ -46,8 +46,8 @@ Phase val loss: 0.34451772966384886, acc: 0.8441333333333333
 ```
 ## Dataset
 For **classification** dataset: I use a [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition) from kaggle which contains two classes(cats, dogs).
-For detection dataset: TBD
-## reference material
+For detection dataset: In another (repo)[https://github.com/ZhuYun97/ShufflNetv2-YOLOv3]
+## References
 - For structure: [shufflenet-v2](https://github.com/ericsun99/Shufflenet-v2-Pytorch)
 - For data processing: [process data](https://zhuanlan.zhihu.com/p/29024978)
 
