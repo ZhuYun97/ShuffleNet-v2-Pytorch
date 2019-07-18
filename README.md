@@ -1,4 +1,4 @@
-# shufflenetv2 in Pytorch
+# ShuffleNet v2 in Pytorch
 - The paper about shufflenetv2: [shufflenet v2](https://arxiv.org/pdf/1807.11164.pdf)
 - I implement the shufflenetv2, and test the performance on classification and detection tasks. You can use these codes to train model on your dataset.
 
