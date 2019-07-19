@@ -44,7 +44,7 @@ Phase val loss: 0.37815397882064183, acc: 0.8298666666666666
 Phase train loss: 0.3477836193084717, acc: 0.8467428571428571
 Phase val loss: 0.34451772966384886, acc: 0.8441333333333333
 ```
-And I didn't adjust any hyper parameters, the accuracy can reach 92.7%
+And I didn't adjust any hyper parameters. After 15 epochs, the accuracy can reach 92.7%
 ```Phase val loss: 0.18356857439478239, acc: 0.9269333333333334```
 ## Dataset
 For **classification** dataset: I use a [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition) from kaggle which contains two classes(cats, dogs).
