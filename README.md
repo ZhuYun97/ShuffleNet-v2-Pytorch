@@ -23,6 +23,16 @@
 - `python main.py -t 0 -pre "./save/1563186508.pkl"`
 #### Explanation for some obscure arguments
 - `t` means you decide to train(1) or test(0) the model. If you assign 0 to `t`, it's better to assign a trained model to `pre` 
+#### Comparision with other models
+
+| Type | Acc | Time |
+| --- | --- | --- |
+| ShuffleNet v2 | 92.7 | ? |
+| MobileNet v2 | 90.7 | ? |
+
+In additions, MobileNet v2 is hard to converge(training around 30 epochs).
+> The dataset is dogvscat. And The GPU is 1080.
+
 ### For detection
 In another [repo](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
 ## Training own your dataset
