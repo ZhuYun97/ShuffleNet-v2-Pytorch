@@ -153,7 +153,7 @@ if __name__ == '__main__':
 		model, val_logs = train_model(model, dataloader, loss_fn, optimizer, epochs)
 		# store the model
 		import time
-		t.save(model.state_dict(), "./save/" + str(int(time.time()))+'.pkl')
+		t.save(model.state_dict(), "./save/" + model_type + str(int(time.time()))+'.pkl')
 	else:
 		test_model(model, dataloader['val'], loss_fn)
 	
