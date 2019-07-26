@@ -74,10 +74,14 @@ def train_model(model, dataloaders, loss_fn, optimizer, num_epochs=5):
 
 
 def test_model(model, dataloader, loss_fn):
+	import time
 	model.eval()
 	running_loss = 0.
 	running_corrects = 0.
+	total_len = 0
+	start = time.time()
 	for inputs, labels in dataloader:
+		total_len += len(inputs)
 		inputs, labels = inputs.to(device), labels.to(device)
 
 		outputs = model(inputs)
@@ -87,10 +91,17 @@ def test_model(model, dataloader, loss_fn):
 		running_loss += loss.item() * inputs.size(0)
 		running_corrects += t.sum(preds.view(-1) == labels.view(-1)).item()
 
+	end = time.time()
 	epoch_loss = running_loss / len(dataloader.dataset)
 	epoch_acc = running_corrects / len(dataloader.dataset)
+	duration = end - start
+	fps = total_len / duration
 
 	print("On val dataset loss: {}, acc: {}".format(epoch_loss, epoch_acc))
+	print("{} FPS".format(fps))
+
+
+def test_fps(model)
 
 if __name__ == '__main__':
 	args = vars(ap.parse_args())
