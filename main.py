@@ -1,10 +1,12 @@
 import argparse
 from dataprocess.dataset import DogCat
 from models import ShuffleNet2
+from models import MobileNet2
 import torch as t
 from torch.utils import data
 import torch.nn as nn
 import copy
+from efficientnet_pytorch import EfficientNet
 
 
 ap = argparse.ArgumentParser()
@@ -12,13 +14,15 @@ ap.add_argument("-bs", "--batchsize", type=int, default=32,
                 help="the batch size of input")
 ap.add_argument("-t", "--train", type=int, default=1,
                 help="choose training or valdating")
-ap.add_argument("-pre", "--pretrained", type=str,
+ap.add_argument("-pre", "--pretrained", type=str, default="None",
                 help="select a pretrained model")
-ap.add_argument("-e", "--epoch", type=int, default=5,
+ap.add_argument("-e", "--epochs", type=int, default=5,
                 help="epochs of training")
 ap.add_argument("-path", "--datapath", type=str, default="./dogvscat/train",
-                help="epochs of training")
+                help="path of training dataset")
 # the arguments for model
+ap.add_argument("-m", "--model", type=str, default="ShuffleNet2",
+                help="the type of model")
 ap.add_argument("-c", "--classes", type=int, default=2,
                 help="the number of classes of dataset")
 ap.add_argument("-s", "--inputsize", type=int, default=224,
@@ -91,6 +95,7 @@ if __name__ == '__main__':
 	args = vars(ap.parse_args())
 	path = args["datapath"]
 	train_sign = args["train"]
+	epochs = args["epochs"]
 
 	batchsize = args["batchsize"]
 	dataloader = {}
@@ -109,12 +114,20 @@ if __name__ == '__main__':
 	dataloader["val"] = val_loader
 
 	device = t.device("cuda" if t.cuda.is_available() else "cpu")
-	model_path = args.get("pretrained", "None")
+	model_path = args["pretrained"]
 
 	num_classes = args["classes"]
 	input_size = args["inputsize"]
 	net_type = args["nettype"]
-	model = ShuffleNet2(num_classes, input_size, net_type)
+	model_type = args["model"]
+	if model_type == "ShuffleNet2":
+		model = ShuffleNet2(num_classes, input_size, net_type)
+	elif model_type == "MobileNet2":
+		model = MobileNet2(num_classes, input_size, net_type)
+	elif "efficientnet" in model_type.lower():
+		model = EfficientNet.from_name(model_type)
+	else:
+		print("We don't implement the model, please choose ShuffleNet2 or MobileNet2")
 	if model_path != "None":
 		model.load_state_dict(t.load(model_path))
 	model.to(device)
@@ -122,7 +135,7 @@ if __name__ == '__main__':
 	loss_fn = nn.CrossEntropyLoss()
 	optimizer = t.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 	if train_sign:
-		model, val_logs = train_model(model, dataloader, loss_fn, optimizer)
+		model, val_logs = train_model(model, dataloader, loss_fn, optimizer, epochs)
 		# store the model
 		import time
 		t.save(model.state_dict(), "./save/" + str(int(time.time()))+'.pkl')
