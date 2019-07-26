@@ -1,4 +1,4 @@
-# shufflenetv2 in Pytorch
+# ShuffleNet v2 in Pytorch
 - The paper about shufflenetv2: [shufflenet v2](https://arxiv.org/pdf/1807.11164.pdf)
 - I implement the shufflenetv2, and test the performance on classification and detection tasks. You can use these codes to train model on your dataset.
 
@@ -9,7 +9,7 @@
 ## To do
 - [x] Network structure
 - [x] Used for Classification
-- [ ] Used for Objection detection
+- [x] Used for [Objection detection](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
 ## Usage
 ### For classification
 - If you want to test classification demo.
@@ -20,16 +20,26 @@
 - Training from a fresh start: run the command `python main.py`
 - Training from a trained model: `python main.py -t 1 -pre "/save/1563186508.pkl"`
 #### Testing
-- `python main.py -t 0 -pre "/save/1563186508.pkl"`
+- `python main.py -t 0 -pre "./save/1563186508.pkl"`
 #### Explanation for some obscure arguments
 - `t` means you decide to train(1) or test(0) the model. If you assign 0 to `t`, it's better to assign a trained model to `pre` 
+#### Comparision with other models
+
+| Type | Acc | Time |
+| --- | --- | --- |
+| ShuffleNet v2 | 92.7 | ? |
+| MobileNet v2 | 90.7 | ? |
+
+In additions, MobileNet v2 is hard to converge(training around 30 epochs).
+> The dataset is dogvscat. And The GPU is 1080.
+
 ### For detection
-TBD
+In another [repo](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
 ## Training own your dataset
 ### For classification
 TBD
 ### For detection
-TBD
+In another [repo](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
 ## Experiments
 I train the model about 5 eopchs, and in each eopch, I test the performance of trained model.
 ```
@@ -44,10 +54,12 @@ Phase val loss: 0.37815397882064183, acc: 0.8298666666666666
 Phase train loss: 0.3477836193084717, acc: 0.8467428571428571
 Phase val loss: 0.34451772966384886, acc: 0.8441333333333333
 ```
+And I didn't adjust any hyper parameters. After 15 epochs, the accuracy can reach 92.7%
+```Phase val loss: 0.18356857439478239, acc: 0.9269333333333334```
 ## Dataset
 For **classification** dataset: I use a [dataset](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition) from kaggle which contains two classes(cats, dogs).
-For detection dataset: TBD
-## reference material
+For detection dataset: In another [repo](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
+## References
 - For structure: [shufflenet-v2](https://github.com/ericsun99/Shufflenet-v2-Pytorch)
 - For data processing: [process data](https://zhuanlan.zhihu.com/p/29024978)
 
