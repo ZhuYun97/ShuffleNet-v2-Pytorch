@@ -2,6 +2,7 @@ import argparse
 from dataprocess.dataset import DogCat
 from models import ShuffleNet2
 from models import MobileNet2
+from models import MobileNetV3_Large, MobileNetV3_Small
 import torch as t
 from torch.utils import data
 import torch.nn as nn
@@ -124,6 +125,9 @@ if __name__ == '__main__':
 		model = ShuffleNet2(num_classes, input_size, net_type)
 	elif model_type == "MobileNet2":
 		model = MobileNet2(num_classes, input_size, net_type)
+	elif model_type == "MobileNetV3_Large"
+		model = MobileNetV3_Large
+	elif model_type == "MobileNetV3_Small"
 	elif "efficientnet" in model_type.lower():
 		model = EfficientNet.from_name(model_type)
 	else:
