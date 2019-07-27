@@ -109,14 +109,14 @@ class ShuffleBlock(nn.Module):
           # 1*1 pw conv
           nn.Conv2d(half_c, half_c, 1, 1, 0, bias=False),
           nn.BatchNorm2d(half_c),
-          swish_layer,
+          nonlinear,
           # 3*3 dw conv, stride = 1
           nn.Conv2d(half_c, half_c, 3, 1, 1, groups=half_c, bias=False),
           nn.BatchNorm2d(half_c),
           # 1*1 pw conv
           nn.Conv2d(half_c, half_c, 1, 1, 0, bias=False),
           nn.BatchNorm2d(half_c),
-          swish_layer
+          nonlinear
       )
       
       
