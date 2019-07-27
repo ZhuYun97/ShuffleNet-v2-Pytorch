@@ -134,9 +134,10 @@ if __name__ == '__main__':
 		model = ShuffleNet2(num_classes, input_size, net_type)
 	elif model_type == "MobileNet2":
 		model = MobileNet2(num_classes, input_size, net_type)
-	elif model_type == "MobileNetV3_Large"
-		model = MobileNetV3_Large
-	elif model_type == "MobileNetV3_Small"
+	elif model_type == "MobileNetV3_Large":
+		model = MobileNetV3_Large(num_classes)
+	elif model_type == "MobileNetV3_Small":
+		model = MobileNetV3_Small(num_classes)
 	elif "efficientnet" in model_type.lower():
 		model = EfficientNet.from_name(model_type)
 	else:
