@@ -101,8 +101,6 @@ def test_model(model, dataloader, loss_fn):
 	print("{} FPS".format(fps))
 
 
-def test_fps(model)
-
 if __name__ == '__main__':
 	args = vars(ap.parse_args())
 	path = args["datapath"]
