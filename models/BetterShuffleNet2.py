@@ -180,7 +180,7 @@ class BetterShuffleNet(nn.Module):
         self.fea_size = 464
       
       self.semodule = SeModule(self.fea_size)
-      self.nonlinear = hswish()
+      self.nonlinear = nn.ReLU(True)
 
       for i in range(repeat_num):
         if i == 0:
