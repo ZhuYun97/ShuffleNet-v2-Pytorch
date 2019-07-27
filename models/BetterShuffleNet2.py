@@ -178,9 +178,9 @@ class BetterShuffleNet(nn.Module):
         self.fea_size = 14
       elif stage_idx == 2:
         self.fea_size = 7
+      
       self.semodule = SeModule(self.fea_size)
-      else:
-        self.nonlinear = hswish()
+      self.nonlinear = hswish()
 
       for i in range(repeat_num):
         if i == 0:
