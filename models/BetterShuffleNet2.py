@@ -4,31 +4,54 @@ import torch.nn.functional as F
 from collections import OrderedDict
 import math
 
-sigmoid = nn.Sigmoid()
-class Swish(t.autograd.Function):
-    @staticmethod
-    def forward(ctx, i):
-        result = i * sigmoid(i)
-        ctx.save_for_backward(i)
-        return result
+# sigmoid = nn.Sigmoid()
+# class Swish(t.autograd.Function):
+#     @staticmethod
+#     def forward(ctx, i):
+#         result = i * sigmoid(i)
+#         ctx.save_for_backward(i)
+#         return result
 
-    @staticmethod
-    def backward(ctx, grad_output):
-        i = ctx.saved_variables[0]
-        sigmoid_i = sigmoid(i)
-        return grad_output * (sigmoid_i * (1 + i * (1 - sigmoid_i)))
+#     @staticmethod
+#     def backward(ctx, grad_output):
+#         i = ctx.saved_variables[0]
+#         sigmoid_i = sigmoid(i)
+#         return grad_output * (sigmoid_i * (1 + i * (1 - sigmoid_i)))
 
-swish = Swish.apply
+# swish = Swish.apply
 
-class Swish_module(nn.Module):
+# class Swish_module(nn.Module):
+#     def forward(self, x):
+#         return swish(x)
+
+# swish_layer = Swish_module()
+
+class hswish(nn.Module):
     def forward(self, x):
-        return swish(x)
+        out = x * F.relu6(x + 3, inplace=True) / 6
+        return out
 
-swish_layer = Swish_module()
-# def relu_fn(x):
-#     """ Swish activation function """
-#     # return x * torch.sigmoid(x)
-#     return swish_layer(x)
+
+class hsigmoid(nn.Module):
+    def forward(self, x):
+        out = F.relu6(x + 3, inplace=True) / 6
+        return out
+
+class SeModule(nn.Module):
+    def __init__(self, in_size, reduction=4):
+        super(SeModule, self).__init__()
+        self.se = nn.Sequential(
+            nn.AdaptiveAvgPool2d(1),
+            nn.Conv2d(in_size, in_size // reduction, kernel_size=1, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(in_size // reduction),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_size // reduction, in_size, kernel_size=1, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(in_size),
+            hsigmoid()
+        )
+
+    def forward(self, x):
+        return x * self.se(x)
 
 def channel_shuffle(x, groups=2):
   bat_size, channels, w, h = x.shape
@@ -43,21 +66,16 @@ def conv_1x1_bn(in_c, out_c, stride=1):
   return nn.Sequential(
     nn.Conv2d(in_c, out_c, 1, stride, 0, bias=False),
     nn.BatchNorm2d(out_c),
-    swish_layer
-  )
-
-def conv_bn(in_c, out_c, stride=2):
-  return nn.Sequential(
-    nn.Conv2d(in_c, out_c, 3, stride, 1, bias=False),
-    nn.BatchNorm2d(out_c),
-    swish_layer
+    hswish
   )
 
 
 class ShuffleBlock(nn.Module):
-  def __init__(self, in_c, out_c, downsample=False):
+  def __init__(self, in_c, out_c, nonlinear, semodule=None, downsample=False):
     super(ShuffleBlock, self).__init__()
     self.downsample = downsample
+    if semodule:
+      self.se = semodule
     half_c = out_c // 2
     if downsample:
       self.branch1 = nn.Sequential(
@@ -67,21 +85,21 @@ class ShuffleBlock(nn.Module):
           # 1*1 pw conv
           nn.Conv2d(in_c, half_c, 1, 1, 0, bias=False),
           nn.BatchNorm2d(half_c),
-          swish_layer
+          nonlinear
       )
       
       self.branch2 = nn.Sequential(
           # 1*1 pw conv
           nn.Conv2d(in_c, half_c, 1, 1, 0, bias=False),
           nn.BatchNorm2d(half_c),
-          swish_layer,
+          nonlinear,
           # 3*3 dw conv, stride = 2
           nn.Conv2d(half_c, half_c, 3, 2, 1, groups=half_c, bias=False),
           nn.BatchNorm2d(half_c),
           # 1*1 pw conv
           nn.Conv2d(half_c, half_c, 1, 1, 0, bias=False),
           nn.BatchNorm2d(half_c),
-          swish_layer
+          nonlinear
       )
     else:
       # in_c = out_c
@@ -114,7 +132,13 @@ class ShuffleBlock(nn.Module):
       x1 = x[:, :c, :, :]
       x2 = x[:, c:, :, :]
       out = t.cat((x1, self.branch2(x2)), 1)
-    return channel_shuffle(out, 2)
+      out = channel_shuffle(out, 2)
+      if self.se:
+        out = self.se(out)
+      # 尝试添加残差连接
+      # if in_c == out and not self.downsample:
+      #   out = x + out
+    return out
     
 
 class ShuffleNet2(nn.Module):
@@ -144,18 +168,32 @@ class ShuffleNet2(nn.Module):
     for stage_idx in range(len(self.stage_repeat_num)):
       out_c = self.out_channels[2+stage_idx]
       repeat_num = self.stage_repeat_num[stage_idx]
+      # 先全部使用hswich
+      if stage_idx < 0:
+        self.nonlinear = nn.ReLU(True)
+      if stage_idx == 0:
+        # 在stride=2操作之后的特征图大小
+        self.fea_size = 28
+      elif stage_idx == 1:
+        self.fea_size = 14
+      elif stage_idx == 2:
+        self.fea_size = 7
+      self.semodule = SeModule(self.fea_size)
+      else:
+        self.nonlinear = hswish()
+
       for i in range(repeat_num):
         if i == 0:
-          self.stages.append(ShuffleBlock(in_c, out_c, downsample=True))
+          self.stages.append(ShuffleBlock(in_c, out_c, self.nonlinear, self.semodule, downsample=True))
         else:
-          self.stages.append(ShuffleBlock(in_c, in_c, downsample=False))
+          self.stages.append(ShuffleBlock(in_c, in_c, self.nonlinear, self.semodule, downsample=False))
         in_c = out_c
     self.stages = nn.Sequential(*self.stages)
     
     in_c = self.out_channels[-2]
     out_c = self.out_channels[-1]
     self.conv5 = conv_1x1_bn(in_c, out_c, 1)
-    self.g_avg_pool = nn.AvgPool2d(kernel_size=(int)(input_size/32)) # 如果输入的是224，则此处为7
+    self.g_avg_pool = nn.AvgPool2d(kernel_size=(int)(input_size/32)) # 如果输入的是224，则此处为7, 为什么不使用自适应池化？
     
     # fc layer
     self.fc = nn.Linear(out_c, num_classes)
