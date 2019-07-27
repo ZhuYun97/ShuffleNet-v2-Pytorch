@@ -30,10 +30,13 @@
 
 | Type | Acc | Time |
 | --- | --- | --- |
-| EfficientNet | 94.1 | ? |
-| ShuffleNet v2 | 92.7 | ? |
-| MobileNet v2 | 90.7 | ? |
+| EfficientNet | 94.1 | 140.3 FPS |
+| ShuffleNet v2 | 92.7 | 256.9 FPS |
+| MobileNet v2 | 90.7 | 242.1 FPS |
 | MobileNet v3 | ? | ? |
+
+> mobilenetv2 1563588345.pkl
+> shufflenetv2 1564211174.pkl
 
 In additions, MobileNet v2 is hard to converge(training around 30 epochs).
 > The dataset is dogvscat. And The GPU is 1080.

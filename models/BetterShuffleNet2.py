@@ -141,7 +141,7 @@ class ShuffleBlock(nn.Module):
     return out
     
 
-class ShuffleNet2(nn.Module):
+class BetterShuffleNet(nn.Module):
   def __init__(self, num_classes=2, input_size=224, net_type=1):
     super(ShuffleNet2, self).__init__()
     assert input_size % 32 == 0 # 因为一共会下采样32倍

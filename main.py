@@ -2,7 +2,7 @@ import argparse
 from dataprocess.dataset import DogCat
 from models import ShuffleNet2
 from models import MobileNet2
-from models import MobileNetV3_Large, MobileNetV3_Small
+from models import MobileNetV3_Large, MobileNetV3_Small, BetterShuffleNet
 import torch as t
 from torch.utils import data
 import torch.nn as nn
@@ -69,7 +69,7 @@ def train_model(model, dataloaders, loss_fn, optimizer, num_epochs=5):
                 best_model_wts = copy.deepcopy(model.state_dict())
             if phase == "val":
                 val_acc_history.append(epoch_acc)
-    model.load_state_dict(best_model_wts)    
+    model.load_state_dict(best_model_wts)  
     return model, val_acc_history
 
 
@@ -140,6 +140,8 @@ if __name__ == '__main__':
 		model = MobileNetV3_Small(num_classes)
 	elif "efficientnet" in model_type.lower():
 		model = EfficientNet.from_name(model_type)
+	elif model_type == "BetterShuffleNet":
+		model = BetterShuffleNet(num_classes)
 	else:
 		print("We don't implement the model, please choose ShuffleNet2 or MobileNet2")
 	if model_path != "None":
@@ -152,7 +154,9 @@ if __name__ == '__main__':
 		model, val_logs = train_model(model, dataloader, loss_fn, optimizer, epochs)
 		# store the model
 		import time
-		t.save(model.state_dict(), "./save/" + model_type + str(int(time.time()))+'.pkl')
+		pkl_path = "./save/" + model_type + str(int(time.time()))+'.pkl'
+		t.save(model.state_dict(), pkl_path)
+		print("Model saved to", pkl_path)  
 	else:
 		test_model(model, dataloader['val'], loss_fn)
 	
