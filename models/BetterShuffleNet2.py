@@ -172,12 +172,12 @@ class BetterShuffleNet(nn.Module):
       if stage_idx < 0:
         self.nonlinear = nn.ReLU(True)
       if stage_idx == 0:
-        # 在stride=2操作之后的特征图大小
-        self.fea_size = 28
+        # 在stride=2操作之后的通道数
+        self.fea_size = 116
       elif stage_idx == 1:
-        self.fea_size = 14
+        self.fea_size = 232
       elif stage_idx == 2:
-        self.fea_size = 7
+        self.fea_size = 464
       
       self.semodule = SeModule(self.fea_size)
       self.nonlinear = hswish()
