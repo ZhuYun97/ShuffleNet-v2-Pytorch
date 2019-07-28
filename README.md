@@ -35,6 +35,10 @@
 | MobileNet v2 | 90.7 | 242.1 FPS |
 | MobileNet v3 | ? | ? |
 
+当在concat之后再se
+On val dataset loss: 0.3544557321468989, acc: 0.9209333333333334
+277.87629527741353 FPS
+
 > mobilenetv2 1563588345.pkl
 > shufflenetv2 1564211174.pkl
 
