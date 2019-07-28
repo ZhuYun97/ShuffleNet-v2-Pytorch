@@ -173,11 +173,11 @@ class BetterShuffleNet(nn.Module):
         self.nonlinear = nn.ReLU(True)
       if stage_idx == 0:
         # 在stride=2操作之后的通道数
-        self.fea_size = 116
+        self.fea_size = 58
       elif stage_idx == 1:
-        self.fea_size = 232
+        self.fea_size = 116
       elif stage_idx == 2:
-        self.fea_size = 464
+        self.fea_size = 232
       
       self.semodule = SeModule(self.fea_size)
       self.nonlinear = nn.ReLU(True)
