@@ -124,17 +124,17 @@ class ShuffleBlock(nn.Module):
     out = None
     if self.downsample:
       # if it is downsampling, we don't need to do channel split
-      out = t.cat((self.branch1(x), self.branch2(x)), 1)
+      out = t.cat((self.branch1(x), self.branch2(x)), 1) # 使用se？
     else:
       # channel split
       channels = x.shape[1]
       c = channels // 2
       x1 = x[:, :c, :, :]
       x2 = x[:, c:, :, :]
-      out = t.cat((x1, self.branch2(x2)), 1)
+      out2 = self.branch2(x2)
+      out2 = self.se(out2)
+      out = t.cat((x1, out2), 1)
       out = channel_shuffle(out, 2)
-      if self.se:
-        out = self.se(out)
       # 尝试添加残差连接
       # if in_c == out and not self.downsample:
       #   out = x + out
