@@ -32,7 +32,7 @@ batch_size=1, GPU=1080
 
 | Type | Acc | Time | MFLOPs |
 | --- | --- | --- | --- |
-| EfficientNet-B3 | 94.8 | 61.7 FPS | - |
+| EfficientNet-B3 | 94.8 | 61.7 FPS | 1800 |
 | ShuffleNet v2 | 94.7 | 145.6 FPS | 146 |
 | MobileNet v2 | 94.3 | 190.4 FPS | 300 |
 | MobileNet v3-Large | 89.8 | 109.8 FPS | 219 |
