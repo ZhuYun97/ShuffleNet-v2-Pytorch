@@ -89,7 +89,7 @@ def test_model(model, dataloader, loss_fn):
 		outputs = model(inputs)
 		# 
 		end = time.time()
-		fps = (end-start)/img_len
+		fps = img_len/(end-start)
 		records.append(fps)
 		loss = loss_fn(outputs, labels) 
 		preds = outputs.argmax(dim=1)
