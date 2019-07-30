@@ -185,7 +185,7 @@ class SENet(nn.Module):
         return x
 
 
-def se_resnet_18(num_classes=2):
+def SENet18(num_classes=2):
     """Constructs a ResNet-18 model.
 
     Args:
