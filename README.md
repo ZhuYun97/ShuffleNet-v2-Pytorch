@@ -27,13 +27,15 @@
 - `bs` means batch size
 
 #### Comparision with other models
+batch_size=8, GPU=1080
 
 | Type | Acc | Time |
 | --- | --- | --- |
-| EfficientNet | 94.8 | 140.3 FPS |
+| EfficientNet-B3 | 94.8 | 140.3 FPS |
 | ShuffleNet v2 | 94.7 | 293.5 FPS |
 | MobileNet v2 | 94.3 | 250.0 FPS |
-| MobileNet v3 | ? | ? |
+| MobileNet v3-Large | 89.8 | 237.1 FPS |
+| MobileNet v3-Small | 89.8 | 237.1 FPS |
 
 当在concat之后再se
 On val dataset loss: 0.3544557321468989, acc: 0.9209333333333334

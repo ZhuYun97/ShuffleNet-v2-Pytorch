@@ -78,27 +78,32 @@ def test_model(model, dataloader, loss_fn):
 	model.eval()
 	running_loss = 0.
 	running_corrects = 0.
+	records = []
 	total_len = 0
-	start = time.time()
+	
 	for inputs, labels in dataloader:
-		total_len += len(inputs)
+		img_len = len(inputs)
 		inputs, labels = inputs.to(device), labels.to(device)
-
+		# 
+		start = time.time()
 		outputs = model(inputs)
+		# 
+		end = time.time()
+		fps = (end-start)/img_len
+		records.append(fps)
 		loss = loss_fn(outputs, labels) 
 		preds = outputs.argmax(dim=1)
 
 		running_loss += loss.item() * inputs.size(0)
 		running_corrects += t.sum(preds.view(-1) == labels.view(-1)).item()
 
-	end = time.time()
+	
 	epoch_loss = running_loss / len(dataloader.dataset)
 	epoch_acc = running_corrects / len(dataloader.dataset)
-	duration = end - start
-	fps = total_len / duration
 
 	print("On val dataset loss: {}, acc: {}".format(epoch_loss, epoch_acc))
-	print("{} FPS".format(fps))
+	import numpy as np
+	print("{} FPS".format(np.mean(records)))
 
 
 if __name__ == '__main__':
