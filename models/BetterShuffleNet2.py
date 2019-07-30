@@ -66,7 +66,7 @@ def conv_1x1_bn(in_c, out_c, stride=1):
   return nn.Sequential(
     nn.Conv2d(in_c, out_c, 1, stride, 0, bias=False),
     nn.BatchNorm2d(out_c),
-    hswish()
+    nn.ReLU(True)
   )
 
 

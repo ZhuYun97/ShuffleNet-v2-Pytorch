@@ -2,7 +2,7 @@ import argparse
 from dataprocess.dataset import DogCat
 from models import ShuffleNet2
 from models import MobileNet2
-from models import MobileNetV3_Large, MobileNetV3_Small, BetterShuffleNet
+from models import MobileNetV3_Large, MobileNetV3_Small, BetterShuffleNet, SENet18
 import torch as t
 from torch.utils import data
 import torch.nn as nn
@@ -142,6 +142,8 @@ if __name__ == '__main__':
 		model = EfficientNet.from_name(model_type)
 	elif model_type == "BetterShuffleNet":
 		model = BetterShuffleNet(num_classes)
+	elif model_type == "SENet18":
+		model = SENet18(num_classes)
 	else:
 		print("We don't implement the model, please choose ShuffleNet2 or MobileNet2")
 	if model_path != "None":

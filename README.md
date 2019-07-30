@@ -30,9 +30,9 @@
 
 | Type | Acc | Time |
 | --- | --- | --- |
-| EfficientNet | 94.1 | 140.3 FPS |
-| ShuffleNet v2 | 92.7 | 256.9 FPS |
-| MobileNet v2 | 90.7 | 242.1 FPS |
+| EfficientNet | 94.8 | 140.3 FPS |
+| ShuffleNet v2 | 94.7 | 293.5 FPS |
+| MobileNet v2 | 94.3 | 250.0 FPS |
 | MobileNet v3 | ? | ? |
 
 当在concat之后再se
