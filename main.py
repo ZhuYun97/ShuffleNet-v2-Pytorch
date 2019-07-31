@@ -11,6 +11,8 @@ from efficientnet_pytorch import EfficientNet
 
 
 ap = argparse.ArgumentParser()
+ap.add_argument("-gpu", "--enable_gpu", type=int, default=1,
+                help="use gpu or not")
 ap.add_argument("-bs", "--batchsize", type=int, default=32,
                 help="the batch size of input")
 ap.add_argument("-t", "--train", type=int, default=1,
@@ -128,7 +130,16 @@ if __name__ == '__main__':
                              shuffle=True)
 	dataloader["val"] = val_loader
 
-	device = t.device("cuda" if t.cuda.is_available() else "cpu")
+	use_gpu = args["use_gpu"]
+	if use_gpu:
+		if t.cuda.is_available():
+			device = t.device("cuda")
+		else:
+			print("You don't have gpu")
+
+	else:
+		device = t.device("cpu")
+	# device = t.device("cuda" if t.cuda.is_available() else "cpu")
 	model_path = args["pretrained"]
 
 	num_classes = args["classes"]
