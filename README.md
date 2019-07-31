@@ -32,7 +32,7 @@ batch_size=1, CPU
 
 | Type | Acc | Time | MFLOPs |
 | --- | --- | --- | --- |
-| EfficientNet-B3 | 94.8 | 61.7 FPS | 1800 |
+| EfficientNet-B3 | 94.8 | 9.9 FPS | 1800 |
 | ShuffleNet v2 | 94.7 | 48.3 FPS | 146 |
 | MobileNet v2 | 94.3 | 30.5 FPS | 300 |
 | MobileNet v3-Large | 89.8 | 29.7 FPS | 219 |
