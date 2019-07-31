@@ -11,7 +11,7 @@ from efficientnet_pytorch import EfficientNet
 
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-gpu", "--enable_gpu", type=int, default=1,
+ap.add_argument("-gpu", "--use_gpu", type=int, default=1,
                 help="use gpu or not")
 ap.add_argument("-bs", "--batchsize", type=int, default=32,
                 help="the batch size of input")
