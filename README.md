@@ -28,15 +28,15 @@
 
 #### Comparision with other models
 As for classification task
-batch_size=1, GPU=1080
+batch_size=1, CPU
 
 | Type | Acc | Time | MFLOPs |
 | --- | --- | --- | --- |
 | EfficientNet-B3 | 94.8 | 61.7 FPS | 1800 |
-| ShuffleNet v2 | 94.7 | 145.6 FPS | 146 |
-| MobileNet v2 | 94.3 | 190.4 FPS | 300 |
-| MobileNet v3-Large | 89.8 | 109.8 FPS | 219 |
-| MobileNet v3-Small | 90.9 | 126.2 FPS | 66 |
+| ShuffleNet v2 | 94.7 | 48.3 FPS | 146 |
+| MobileNet v2 | 94.3 | 30.5 FPS | 300 |
+| MobileNet v3-Large | 89.8 | 29.7 FPS | 219 |
+| MobileNet v3-Small | 90.9 | 45.0 FPS | 66 |
 
 当在concat之后再se
 On val dataset loss: 0.3544557321468989, acc: 0.9209333333333334
