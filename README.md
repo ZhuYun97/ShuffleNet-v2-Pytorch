@@ -38,16 +38,6 @@ batch_size=1, CPU
 | MobileNet v3-Large | 89.8 | 29.7 FPS | 219 |
 | MobileNet v3-Small | 90.9 | 45.0 FPS | 66 |
 
-当在concat之后再se
-On val dataset loss: 0.3544557321468989, acc: 0.9209333333333334
-277.87629527741353 FPS
-
-> mobilenetv2 1563588345.pkl
-> shufflenetv2 1564211174.pkl
-
-In additions, MobileNet v2 is hard to converge(training around 30 epochs).
-> The dataset is dogvscat. And The GPU is 1080.
-
 ### For detection
 In another [repo](https://github.com/ZhuYun97/ShufflNetv2-YOLOv3)
 ## Training own your dataset
