@@ -86,8 +86,8 @@ class ShuffleBlock(nn.Module):
       # channel split
       channels = x.shape[1]
       c = channels // 2
-      x1 = x[:, :c, :, :]
-      x2 = x[:, c:, :, :]
+      x1 = x.narrow(1, 0, c)
+      x2 = x.narrow(1, c, c)
       out = t.cat((x1, self.branch2(x2)), 1)
     return channel_shuffle(out, 2)
     
